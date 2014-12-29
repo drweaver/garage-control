@@ -1,0 +1,13 @@
+{
+  "name": "garage-control",
+  "version": "0.0.0",
+  "description": "Garage Control using `socket.io` with a static `express` server.",
+  "main": "server.js",
+  "repository": "",
+  "author": "Shane Weaver",
+  "dependencies": {
+    "express": "~3.2.4",
+    "socket.io": "~0.9.14",
+    "piface-node": "0.0.6"
+  }
+}

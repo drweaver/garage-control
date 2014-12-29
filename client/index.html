@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" ng-app="GcApp">
+  <head>
+    <title>Garage Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style>
+     body {
+        padding-top: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div ng-controller="GcController">
+      <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+          <p class="navbar-left navbar-brand">
+            Garage Control
+          </p>
+        </div>
+      </nav>
+    
+      <button class="btn btn-primary btn-lg btn-block" ng-click="operateDoor()" ng-disabled="!canOperate">
+        <span>Operate Door
+          <span class="badge">{{status}}</span>
+        </span>
+      </button>
+      <nav class="navbar navbar-fixed-bottom navbar-inverse">
+        <div class="container-fluid">
+          <p class="navbar-left navbar-text">
+            {{log}}
+          </p>
+          <p class="navbar-right navbar-text">
+            {{status}}
+          </p>
+        </div>
+      </nav>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script>
+    var app = angular.module('GcApp', []);
+    
+    app.controller('GcController', function($scope) {
+    
+        var socket = io.connect();
+        $scope.log = 'Loading...';
+        $scope.canOperate = false;
+        $scope.operateDoor = function() {
+          $scope.canOperate = false;
+          socket.emit('operate', { lat: $scope.lat, lng: $scope.lng }, function(msg) {
+            $scope.canOperate = true;
+            $scope.log = msg;
+            $scope.$apply();
+          });
+        };
+        
+        socket.on('connect', function() {
+          $scope.log = 'Connected';
+          $scope.canOperate = true;
+          $scope.$apply();
+        });
+        
+        socket.on('reconnecting', function(num) {
+          $scope.log = 'Attempting reconnect in '+(num/1000)+'s';
+          $scope.$apply();
+        });
+        
+        socket.on('disconnect', function() {
+          $scope.log = 'Disconnected';
+          $scope.status = '';
+          $scope.canOperate = false;
+          $scope.$apply();
+        });
+        
+        socket.on('status', function(status) {
+          $scope.status = status;
+          $scope.$apply();
+        });
+        
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(function(position){
+            $scope.$apply(function(){
+              $scope.lat = position.coords.latitude;
+              $scope.lng = position.coords.longitude;
+            });
+          });
+        }
+
+      }); /*- end controller -*/
+      
+    </script>
+  </body>
+</html>
