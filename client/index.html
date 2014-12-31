@@ -8,6 +8,9 @@
      body {
         padding-top: 70px;
       }
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+      }
     </style>
   </head>
   <body>
@@ -23,15 +26,15 @@
     
       <button class="btn btn-primary btn-lg btn-block" ng-click="operateDoor()" ng-disabled="!canOperate">
         <span>Operate Door
-          <span class="badge">{{status}}</span>
+          <span class="badge ng-cloak">{{status}}</span>
         </span>
       </button>
       <nav class="navbar navbar-fixed-bottom navbar-inverse">
         <div class="container-fluid">
-          <p class="navbar-left navbar-text">
+          <p class="navbar-left navbar-text ng-cloak">
             {{log}}
           </p>
-          <p class="navbar-right navbar-text">
+          <p class="navbar-right navbar-text ng-cloak">
             {{status}}
           </p>
         </div>
@@ -49,6 +52,15 @@
         var socket = io.connect();
         $scope.log = 'Loading...';
         $scope.canOperate = false;
+        
+        $scope.checkPosition = function() {
+          if( $scope.lat && $scope.lng ) {
+            socket.emit('position', { lat: $scope.lat, lng: $scope.lng }, function(ok) {
+              $scope.canOperate = ok;
+            });
+          }
+        };
+        
         $scope.operateDoor = function() {
           $scope.canOperate = false;
           socket.emit('operate', { lat: $scope.lat, lng: $scope.lng }, function(msg) {
@@ -61,10 +73,12 @@
         socket.on('connect', function() {
           $scope.log = 'Connected';
           $scope.canOperate = true;
+          $scope.checkPosition();
           $scope.$apply();
         });
         
         socket.on('reconnecting', function(num) {
+          //TODO - can we make this countdown?
           $scope.log = 'Attempting reconnect in '+(num/1000)+'s';
           $scope.$apply();
         });
@@ -86,6 +100,7 @@
             $scope.$apply(function(){
               $scope.lat = position.coords.latitude;
               $scope.lng = position.coords.longitude;
+              $scope.checkPosition();
             });
           });
         }

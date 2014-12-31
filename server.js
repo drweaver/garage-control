@@ -5,6 +5,7 @@
 //
 var http = require('http');
 var path = require('path');
+var geodist = require('geodist');
 
 var socketio = require('socket.io');
 var express = require('express');
@@ -28,12 +29,32 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 var messages = [];
 var sockets = [];
 var status = 'Opening or Closing';
-var statusOptions = ['Closed', 'Opening', 'Opened', 'Closing'];
-var statusCount = 0;
 
 var relayChannel = 0;
 var openedChannel = 1;
 var closedChannel = 2;
+var authDist = 3; // Miles
+if( process.env.LATLNG ) {
+  var garagePos = process.env.LATLNG.split(",");
+  console.log('Position authorisation in effect radius='+authDist+'miles lat,lng=' + garagePos);
+} else {
+  console.log('Position authoirsation is NOT in effect, set with: export LATLNG="mylat,mylng"');
+}
+
+function posAuthorised(pos) {
+  if( garagePos ) {
+    if( !pos || typeof pos != 'object' || Object.keys(pos).length != 2 || !pos.lat || !pos.lng || typeof pos.lat != 'number' || typeof pos.lng != 'number' ) {
+      console.log('position validation failed: '+pos);
+      return false;
+    }
+    var dist = geodist( garagePos, pos )
+    console.log('distance = ' + dist);
+    if( dist > authDist ) {
+      return false;
+    } 
+  }
+  return true;
+}
 
 if( pfio.digital_read(closedChannel) == 1 ) {
   status = 'Closed';
@@ -54,24 +75,22 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
       sockets.splice(sockets.indexOf(socket), 1);
     });
+    
+    socket.on('position', function(pos, fn) {
+      fn( posAuthorised(pos) );
+    });
 
     socket.on('operate', function(pos, fn) {
-      console.info('operating door');
-      //TODO: check distance
-      pfio.digital_write(0,1);
-      setTimeout(function() {
-        pfio.digital_write(0,0);
-        fn('Door operated successfully');
-      }, 1000);
-      console.info('lat = '+pos.lat);
-      console.info('lng = '+pos.lng);
-      /*
-      setTimeout(function() {
-        statusCount++;
-        status = statusOptions[statusCount % statusOptions.length];
-        broadcast('status', status);
-      }, 2000);
-      */
+      if( posAuthorised(pos) ) {
+        console.info('operating door');
+        pfio.digital_write(relayChannel, 1);
+        setTimeout(function() {
+          pfio.digital_write(relayChannel, 0);
+          fn('Door operated successfully');
+        }, 1000);
+      } else {
+          fn('Not close enough to operate door');
+      } 
     });
 
   });
