@@ -29,5 +29,4 @@ setInterval(function() {
         EventBus.emit('pfio.input.changed', pinActivated, 0);
         pinActivated++;
     }
-    console.info(pins);
 } ,5000);
