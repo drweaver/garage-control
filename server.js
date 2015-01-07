@@ -15,7 +15,7 @@ var door = require('./door.js');
 var pos = require('./pos.js');
 require('./doormonitor.js');
 
-door.init( { relay: 0, opened: 1, closed: 2 } );
+door.init( { relay: 0, opened: 0, closed: 1 } );
 
 var router = express();
 var server = http.createServer(router);

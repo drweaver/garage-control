@@ -4,7 +4,7 @@ if( process.argv.indexOf('--mock') != -1 ) {
     var pfio = require('./piface-node-mock');
     console.log('Mock mode');
 } else {
-    var pfio = require('./piface-node');
+    var pfio = require('piface-node');
     require('./pfio.input.changed.js');
 }
 
@@ -17,12 +17,10 @@ function inputChanged(pin,state) {
   var lastStatus = status;
   if( pin == options.closed || pin == options.opened ) {
   	if( pin == options.opened ) {
-  	  if( state === 0 )  status = 'Closing';
-  	  else               status = 'Opened';
+  	    status = state ? 'Opened' : 'Closed';
   	} 
   	if(pin == options.closed) {
-  	  if( state === 0 )  status = 'Opening';
-  	  else               status = 'Closed';
+  	    status = state ? 'Closed' : 'Opening';
   	}
   	if( lastStatus != status ) EventBus.emit('garage.status.changed', lastStatus, status);
   }
