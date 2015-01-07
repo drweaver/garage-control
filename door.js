@@ -17,7 +17,7 @@ function inputChanged(pin,state) {
   var lastStatus = status;
   if( pin == options.closed || pin == options.opened ) {
   	if( pin == options.opened ) {
-  	    status = state ? 'Opened' : 'Closed';
+  	    status = state ? 'Opened' : 'Closing';
   	} 
   	if(pin == options.closed) {
   	    status = state ? 'Closed' : 'Opening';
