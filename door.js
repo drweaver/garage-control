@@ -1,6 +1,12 @@
 var EventBus = require('./EventBus');
 
-var pfio = require('./piface-node-mock');
+if( process.argv.indexOf('--mock') != -1 ) {
+    var pfio = require('./piface-node-mock');
+    console.log('Mock mode');
+} else {
+    var pfio = require('./piface-node');
+    require('./pfio.input.changed.js');
+}
 
 var status = 'Opening or Closing';
 var options = {};
