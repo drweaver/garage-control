@@ -2,13 +2,22 @@
   "name": "garage-control",
   "version": "0.0.0",
   "description": "Garage Control using `socket.io` with a static `express` server.",
-  "main": "server.js",
-  "repository": "",
+  "main": "index.js",
+  "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
+  "keywords": [
+    "pushbullet",
+    "garage",
+    "door",
+    "raspberry pi",
+    "piface",
+    "pfio"
+  ],
   "dependencies": {
     "express": "~3.2.4",
     "socket.io": "~0.9.14",
     "piface-node": "~0.0.6",
-    "geodist": "~0.2.1"
+    "geodist": "~0.2.1",
+    "pushbullet": "~1.4.2"
   }
 }
