@@ -1,7 +1,5 @@
 //
-// # SimpleServer
-//
-// A simple server using Socket.IO and Express to control Garage Door using Raspberry Pi and PiFace.
+// A server using Socket.IO and Express to control Garage Door using Raspberry Pi and PiFace.
 //
 var http = require('http');
 var path = require('path');
@@ -19,9 +17,9 @@ door.init( { relay: 0, opened: 0, closed: 1 } );
 
 var router = express();
 var server = http.createServer(router);
-var io = socketio.listen(server);
+var io = socketio.listen(server, { 'resource': '/gc/socket.io'});
 
-router.use(express.static(path.resolve(__dirname, 'client')));
+router.use(express.static( path.resolve(__dirname, 'client')));
 var sockets = [];
 
 io.on('connection', function (socket) {

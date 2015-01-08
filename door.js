@@ -16,12 +16,10 @@ EventBus.on('pfio.input.changed', inputChanged);
 function inputChanged(pin,state) {
   var lastStatus = status;
   if( pin == options.closed || pin == options.opened ) {
-  	if( pin == options.opened ) {
+  	if( pin == options.opened )
   	    status = state ? 'Opened' : 'Closing';
-  	} 
-  	if(pin == options.closed) {
+  	if(pin == options.closed) 
   	    status = state ? 'Closed' : 'Opening';
-  	}
   	if( lastStatus != status ) EventBus.emit('garage.status.changed', lastStatus, status);
   }
 }

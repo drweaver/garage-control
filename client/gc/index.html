@@ -40,7 +40,7 @@
         </div>
       </nav>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="/gc/socket.io/socket.io.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
@@ -49,7 +49,7 @@
     
     app.controller('GcController', function($scope) {
     
-        var socket = io.connect();
+        var socket = io.connect( location.origin, { 'resource': 'gc/socket.io'} );
         $scope.log = 'Loading...';
         $scope.canOperate = false;
         
@@ -58,7 +58,7 @@
             socket.emit('position', { lat: $scope.lat, lng: $scope.lng }, function(ok) {
               $scope.canOperate = ok;
             });
-          }
+          } 
         };
         
         $scope.operateDoor = function() {
@@ -96,14 +96,17 @@
         });
         
         if (navigator.geolocation) {
-          navigator.geolocation.watchPosition(function(position){
-            $scope.$apply(function(){
-              $scope.lat = position.coords.latitude;
-              $scope.lng = position.coords.longitude;
-              $scope.checkPosition();
+          var updatePos = function(position) {
+              $scope.$apply(function(){
+                $scope.lat = position.coords.latitude;
+                $scope.lng = position.coords.longitude;
+                $scope.checkPosition();
             });
-          });
+          }
+          navigator.geolocation.getCurrentPosition(updatePos);
+          navigator.geolocation.watchPosition(updatePos);
         }
+        
 
       }); /*- end controller -*/
       
