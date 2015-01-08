@@ -57,6 +57,7 @@
           if( $scope.lat && $scope.lng ) {
             socket.emit('position', { lat: $scope.lat, lng: $scope.lng }, function(ok) {
               $scope.canOperate = ok;
+              $scope.$apply();
             });
           } 
         };
