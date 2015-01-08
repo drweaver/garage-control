@@ -1,6 +1,9 @@
+//
+// A server using Socket.IO and Express to control Garage Door using Raspberry Pi and PiFace.
+//
 require('./lib/notify.pushbullet.js');  // Set with EXPORT PUSHBULLET=<your api key>
 
-require('./lib/door.control.js').init({ relay: 0, opened: 0, closed: 1 });
+require('./lib/door.control.js').init({ relay: 0, opened: 1, closed: 0 });
 
 require('./lib/door.monitor.js');
 

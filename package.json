@@ -6,9 +6,10 @@
   "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
   "keywords": [
-    "pushbullet",
     "garage",
     "door",
+    "opener",
+    "pushbullet",
     "raspberry pi",
     "piface",
     "pfio"
