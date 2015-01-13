@@ -61,7 +61,7 @@
         
         $scope.operateDoor = function() {
           $scope.canOperate = false;
-          socket.emit('operate', { lat: $scope.lat, lng: $scope.lng }, function(msg) {
+          socket.emit('operate', $scope.latlng, function(msg) {
             $scope.canOperate = true;
             $scope.log = msg;
             $scope.$apply();
