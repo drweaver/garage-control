@@ -24,11 +24,14 @@
         </div>
       </nav>
     
-      <button class="btn btn-primary btn-lg btn-block" ng-click="operateDoor()" ng-disabled="!canOperate">
-        <span>Operate Door
-          <span class="badge ng-cloak">{{status}}</span>
-        </span>
-      </button>
+      <div class="container">
+        <button class="btn btn-primary btn-lg btn-block" ng-click="operateDoor()" ng-disabled="!canOperate">
+          <span>Operate Door
+            <span class="badge ng-cloak">{{status}}</span>
+          </span>
+        </button>
+      </div>
+      
       <nav class="navbar navbar-fixed-bottom navbar-inverse">
         <div class="container-fluid">
           <p class="navbar-left navbar-text ng-cloak">
