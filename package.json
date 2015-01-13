@@ -2,7 +2,7 @@
   "name": "garage-control",
   "version": "0.0.0",
   "description": "Garage Control using `socket.io` with a static `express` server.",
-  "main": "index.js",
+  "main": "garage-control.js",
   "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
   "keywords": [
