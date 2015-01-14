@@ -1,6 +1,6 @@
 {
   "name": "garage-control",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Garage Control using `socket.io` with a static `express` server.",
   "main": "garage-control.js",
   "repository": "https://github.com/drweaver/garage-control",
