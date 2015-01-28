@@ -13,7 +13,7 @@
      body {
         padding-top: 70px;
       }
-        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+      [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
           display: none !important;
       }
     </style>
@@ -26,6 +26,10 @@
           <p class="navbar-left navbar-brand">
             Garage Control
           </p>
+          <p class="navbar-right">
+            <span class="glyphicon glyphicon-map-marker" aria-aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+          </p>
         </div>
       </nav>
     
@@ -35,6 +39,10 @@
             <span class="badge ng-cloak">{{status}}</span>
           </span>
         </button>
+        <br/>
+        <div class="text-center">
+          <img src="/garagecam/?action=stream" class="img-responsive">
+        </div>
       </div>
       
       <nav class="navbar navbar-fixed-bottom navbar-inverse">
