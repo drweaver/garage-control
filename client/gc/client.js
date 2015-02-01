@@ -1,6 +1,6 @@
-var app = angular.module('GcApp', []);
+var app = angular.module('GcApp', ['ngNotify']);
 
-app.controller('MainController', [ '$scope', '$timeout', 'onFix', function($scope, $timeout, onFix) {
+app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', function($scope, $timeout, onFix, ngNotify) {
     
   var socket = io.connect( location.origin, { 'path': '/gc/socket.io'} );
 
@@ -23,7 +23,7 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', function($scop
     } else {
       onFix( callback, true );
     }
-  }
+  };
   
   var socketReady = function(callback) {
     if( $scope.connected ) {
@@ -34,14 +34,14 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', function($scop
         socket.removeListener('connect', listener);
       });
     }
-  }
+  };
   
   $scope.operateDoor = function() {
     var maxTime = 10000;
     var timeout = new Date().getTime() + maxTime;
     var promise = $timeout(function() {
       $scope.canOperate=true;
-      $scope.log= 'Door NOT operated';
+      ngNotify.set('Door NOT operated', {type: 'error', sticky: true});
     }, maxTime);
     $scope.canOperate = false;
     fixReady( function(latlng) {
@@ -49,34 +49,34 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', function($scop
         if( new Date().getTime() > timeout ) return;
         socket.emit('operate', $scope.latlng, function(msg) {
           $scope.canOperate = true;
-          $scope.log = msg;
+          ngNotify.set(msg, { type: 'success'});
           $timeout.cancel(promise);
           $scope.$apply();
         });
       });
-    })
+    });
   };
   
   socket.on('connect', function() {
     $scope.connected = true;
     $scope.checkPosition();
-    $scope.log = '';
     $scope.$apply();
   });
   
   socket.on('reconnecting', function(num) {
-    $scope.log = 'Reconnection attempt number '+ num;
+    //ngNotify.set('Reconnection attempt number '+num, {type: 'error'});
     $scope.$apply();
   });
   
   socket.on('disconnect', function() {
     $scope.connected = false;
-    $scope.log = '';
+    ngNotify.set('Lost connection to server', {type: 'error', sticky: true});
     $scope.$apply();
   });
   
   socket.on('status', function(status) {
     $scope.status = status;
+    ngNotify.set('Garage is '+status, {type: 'info'});
     $scope.$apply();
   });
 
