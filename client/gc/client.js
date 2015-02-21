@@ -1,3 +1,6 @@
+// Maximum retries before performing full page refresh.
+var MAX_RETRIES = 3;
+
 var app = angular.module('GcApp', ['ngNotify']);
 
 app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', function($scope, $timeout, onFix, ngNotify) {
@@ -7,6 +10,7 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
   $scope.connected = false;
   $scope.latlngAuthorised = false;
   $scope.canOperate = true;
+  $scope.retries = 0;
   
   $scope.checkPosition = function() {
     if( $scope.latlng && socket.connected ) {
@@ -59,17 +63,22 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
   
   socket.on('connect', function() {
     $scope.connected = true;
+    $scope.retries = 0;
     $scope.checkPosition();
     $scope.$apply();
   });
   
   socket.on('reconnecting', function(num) {
-    //ngNotify.set('Reconnection attempt number '+num, {type: 'error'});
+    if( $scope.retries > MAX_RETRIES ) {
+      location.reload();
+    }
+    $scope.retries++;
     $scope.$apply();
   });
   
   socket.on('disconnect', function() {
     $scope.connected = false;
+    $scope.retries = 0;
     ngNotify.set('Lost connection to server', {type: 'error', sticky: true});
     $scope.$apply();
   });
