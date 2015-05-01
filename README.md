@@ -23,4 +23,4 @@ With
     
 ##TODO
 
-* GZIP http responses
+* GZIP http responses, see http://blog.modulus.io/nodejs-and-express-static-content
