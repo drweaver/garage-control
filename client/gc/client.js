@@ -93,6 +93,16 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
     $scope.latlng = latlng;
     $scope.checkPosition();
   });
+  
+  window.document.addEventListener("visibilitychange", function(e) {
+    if( window.document.visibilityState == 'hidden' ) {
+      socket.disconnect();
+    }
+    if( window.document.visibilityState == 'visible' ) {
+      socket.connect();
+    }
+    $scope.$apply();
+  });
 
 }]); /*- end controller -*/
 
