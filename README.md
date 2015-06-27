@@ -20,3 +20,7 @@ Replace
 With
 
     $ var pfio = require('./piface-node-mock');
+    
+##TODO
+
+* GZIP http responses, see http://blog.modulus.io/nodejs-and-express-static-content
