@@ -20,5 +20,9 @@
     "piface-node": "~0.0.6",
     "geodist": "~0.2.1",
     "pushbullet": "~1.4.2"
+  },
+  "scripts": {
+    "start": "nohup $(which node) $(pwd)/garage-control.js > /dev/null &",
+    "stop":  "pkill -xfe $(which node)\\ $(pwd)/garage-control.js || true"
   }
 }
