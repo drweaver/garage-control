@@ -21,26 +21,34 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
     } 
   };
   
-  var fixReady = function(callback) {
-    if( $scope.latlng ) {
-      callback( $scope.latlng );
+  var posAuthorised = function(callback) {
+    if( $scope.latlngAuthorised === true ) {
+      callback();
     } else {
-      onFix( callback, true );
+      var dewatch =  $scope.$watch('latlngAuthorised', function(newVal) {
+        // assume no other option but to be true at this point
+        console.log('$watch latlngAuthorised='+$scope.latlngAuthorised);
+        if( newVal === true ) {
+          dewatch();
+          callback();
+        }
+      });
     }
-  };
+  }
   
   var socketReady = function(callback) {
     if( $scope.connected ) {
       callback();
     } else {
       var listener = socket.on('connect', function() {
-        callback();
         socket.removeListener('connect', listener);
+        callback();
       });
     }
   };
   
   $scope.operateDoor = function() {
+    console.log('latlngAuthorised='+$scope.latlngAuthorised);
     var maxTime = 10000;
     var timeout = new Date().getTime() + maxTime;
     var promise = $timeout(function() {
@@ -48,13 +56,13 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
       ngNotify.set('Door NOT operated', {type: 'error', sticky: true});
     }, maxTime);
     $scope.canOperate = false;
-    fixReady( function(latlng) {
+    posAuthorised( function() {
       socketReady( function() {
         if( new Date().getTime() > timeout ) return;
-        socket.emit('operate', $scope.latlng, function(msg) {
-          $scope.canOperate = true;
-          ngNotify.set(msg, { type: 'success'});
+        socket.emit('operate', function(status, msg) {
           $timeout.cancel(promise);
+          $scope.canOperate = true;
+          ngNotify.set(msg, { type: status});
           $scope.$apply();
         });
       });
@@ -78,6 +86,7 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
   
   socket.on('disconnect', function() {
     $scope.connected = false;
+    $scope.latlngAuthorised = false;
     $scope.retries = 0;
     ngNotify.set('Lost connection to server', {type: 'error', sticky: true});
     $scope.$apply();
@@ -88,7 +97,7 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
     ngNotify.set('Garage is '+status, {type: 'info'});
     $scope.$apply();
   });
-
+  
   onFix( function(latlng) {
     $scope.latlng = latlng;
     $scope.checkPosition();
@@ -109,10 +118,10 @@ app.controller('MainController', [ '$scope', '$timeout', 'onFix', 'ngNotify', fu
 app.factory('onFix', [ '$timeout', function($timeout) {
   
   var listeners = [];
-  var listenersOneTime = [];
   var latlng;
   
   if (navigator.geolocation) {
+    console.log('geolocation available');
     var distance = function(lat1,lng1,lat2,lng2) {
       var R = 6371; // km
       var φ1 = lat1.toRadians();
@@ -135,10 +144,6 @@ app.factory('onFix', [ '$timeout', function($timeout) {
         for (var i in listeners) {
           listeners[i](latlng);
         }
-        for (var i in listenersOneTime) {
-          listenersOneTime[i](latlng);
-        }
-        listenersOneTime = [];
       }
     };
   
@@ -147,11 +152,9 @@ app.factory('onFix', [ '$timeout', function($timeout) {
       navigator.geolocation.watchPosition(updatePos);
     });
 
-    return function(listener, oneTime) {
-      if( oneTime === true ) 
-        listenersOneTime.push(listener);
-      else 
-        listeners.push(listener);
+    return function(listener) {
+      if( latlng !== undefined ) listener(latlng);
+      listeners.push(listener);
     }
   }
 }]);
