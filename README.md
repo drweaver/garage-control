@@ -4,6 +4,19 @@ Node.js implementation of Garage server and client.  Uses [PiFace Digital](http:
 
 This uses `socket.io` with a static `express` server.
 
+## Config
+
+Create a config.json file in the root folder with the following format:
+
+```
+{ 
+    "notify": {
+        "interval": 20,
+        "openAlert": 30
+    }
+}
+```
+
 ## Running the server
 
 1) On Cloud9 and using mocked mode (see below) open `server.js` and start the app by clicking on the "Run" button in the top menu.
