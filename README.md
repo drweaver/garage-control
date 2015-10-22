@@ -11,11 +11,27 @@ Create a config.json file in the root folder with the following format:
 ```
 { 
     "notify": {
-        "interval": 20,
-        "openAlert": 30
+        "interval": 600,
+        "openAlert": 900
+    },
+    "pfio": {
+        "relay": 0,
+        "opened": 1,
+        "closed": 0
+    },
+    "pos": {
+        "distance": 3,
+        "lat": xx.xxx,
+        "lng": yy.xxx
+    },
+    "pushbullet": {
+        "link": "https://node-garage-control-drweaver1.c9.io"
     }
 }
 ```
+
+* notify interval is in seconds and represents how often to check status of door
+* notify openAlert is limit when to send an alert 
 
 ## Running the server
 
