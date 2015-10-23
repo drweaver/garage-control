@@ -25,13 +25,19 @@ Create a config.json file in the root folder with the following format:
         "lng": yy.xxx
     },
     "pushbullet": {
-        "link": "https://node-garage-control-drweaver1.c9.io"
+        "link": "https://www.location.of.my.garagecontrol.com"
     }
 }
 ```
 
-* notify interval is in seconds and represents how often to check status of door
-* notify openAlert is limit when to send an alert 
+* *notify interval* is in seconds and represents how often to check status of door
+* *notify openAlert* is limit when to send an alert 
+* *pfio relay* is the PiFace relay connected to the garage door opener switch
+* *pfio opened* is the PiFace input which is triggered when the door is opened
+* *pfio closed* is the PiFace input which is triggered when the door is closed
+* *pos distance* is the allowed distance from the coords to authorise open/close operation
+* *pos lat/lng* is the coordinates of your garage to enforce the distance authorisation
+* *pushbullet link* is the link provided in the pushbullet notification to get back garage control site
 
 ## Running the server
 
