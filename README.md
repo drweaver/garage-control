@@ -26,6 +26,11 @@ Create a config.json file in the root folder with the following format:
     },
     "pushbullet": {
         "link": "https://www.location.of.my.garagecontrol.com"
+    },
+    "server": {
+        "cam": {
+            "target": "http://path.to.my.garage.camera.com"
+        }
     }
 }
 ```

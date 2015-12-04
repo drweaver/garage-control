@@ -12,4 +12,4 @@ require('./lib/door.control.js').init(config.pfio);
 
 require('./lib/auth.pos.js').init(config.pos); // Set Lat,Lng with EXPORT LATLNG=<lat>,<lng> or in init({ distance: 3, lat: <lat>, lng: <lng>})
 
-require('./lib/server.js');
+require('./lib/server.js').init(config.server).start();
