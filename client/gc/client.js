@@ -1,3 +1,4 @@
+/* global io angular location */
 // Maximum retries before performing full page refresh.
 var MAX_RETRIES = 3;
 
