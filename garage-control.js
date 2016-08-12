@@ -10,7 +10,9 @@ require('./lib/door.monitor.js').init(config.notify);
 
 require('./lib/door.control.js').init(config.pfio);
 
-require('./lib/mqtt.js').init(config.mqtt);
+require('./lib/mqtt.local.js').init(config.mqtt);
+
+//require('./lib/mqtt.remote.js').init(config.mqtt);
 
 require('./lib/auth.pos.js').init(config.pos); // Set Lat,Lng with EXPORT LATLNG=<lat>,<lng> or in init({ distance: 3, lat: <lat>, lng: <lng>})
 
