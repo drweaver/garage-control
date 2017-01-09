@@ -6,6 +6,8 @@ var config = require('./config.json');
 
 require('./lib/notify.pushbullet.js').init(config.pushbullet);  // Set with EXPORT PUSHBULLET=<your api key>
 
+require('./lib/statuslog.js').init(config.statuslog);
+
 require('./lib/delay.event.js').init(config.delay);
 
 require('./lib/door.monitor.js').init(config.notify);
