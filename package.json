@@ -5,6 +5,7 @@
   "main": "garage-control.js",
   "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
+  "license": "Apache-2.0",
   "keywords": [
     "garage",
     "door",
@@ -22,13 +23,15 @@
     "pushbullet": "~1.4.2",
     "async": "~1.5.0",
     "http-proxy": "~1.14.0",
-    "amqplib": "~0.5.1"
+    "amqplib": "~0.5.1",
+    "pubnub" : "^4.3.3"
+
   },
   "optionalDependencies": {
     "piface-node": "~0.0.6"
   },
   "scripts": {
-    "start": "nohup $(which node) $(pwd)/garage-control.js > /dev/null &",
-    "stop":  "pkill -xfe $(which node)\\ $(pwd)/garage-control.js || true"
+    "start": "node garage-control.js",
+    "stop": "pkill --signal SIGINT garagecontrol"
   }
 }

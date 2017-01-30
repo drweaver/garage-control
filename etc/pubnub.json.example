@@ -1,0 +1,5 @@
+{ 
+    "subscribeKey": "<pubnub-sub-key>",
+    "publishKey": "<pubnub-pub-key>",
+    "uuid": "<uuid>"
+}
