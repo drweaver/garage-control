@@ -24,7 +24,8 @@
     "async": "~1.5.0",
     "http-proxy": "~1.14.0",
     "amqplib": "~0.5.1",
-    "pubnub" : "^4.3.3"
+    "pubnub" : "^4.3.3",
+    "mqtt": "^2.3.1"
 
   },
   "optionalDependencies": {
