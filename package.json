@@ -2,7 +2,7 @@
   "name": "garage-control",
   "version": "1.0.0",
   "description": "Garage Control using `socket.io` with a static `express` server.",
-  "main": "garage-control.js",
+  "main": "index.js",
   "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
   "license": "Apache-2.0",
@@ -32,7 +32,7 @@
     "piface": "^2.0.10"
   },
   "scripts": {
-    "start": "node garage-control.js",
+    "start": "node index.js",
     "stop": "pkill --signal SIGINT garagecontrol"
   }
 }
