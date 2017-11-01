@@ -1,4 +1,0 @@
-{ 
-  "url": "mqtt://localhost",
-  "topic": "home/garage/door"
-}
