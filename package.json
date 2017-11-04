@@ -1,7 +1,7 @@
 {
   "name": "garage-control",
   "version": "1.0.0",
-  "description": "Garage Control using `socket.io` with a static `express` server.",
+  "description": "Garage Control using PiFace and MQTT protocol.",
   "main": "index.js",
   "repository": "https://github.com/drweaver/garage-control",
   "author": "Shane Weaver",
@@ -10,26 +10,17 @@
     "garage",
     "door",
     "opener",
-    "pushbullet",
     "raspberry pi",
     "piface",
     "pfio"
   ],
   "dependencies": {
-    "express": "~4.14.0",
-    "compression": "~1.6.2",
-    "socket.io": "~1.4.8",
-    "geodist": "~0.2.1",
-    "pushbullet": "~1.4.2",
     "async": "~1.5.0",
-    "http-proxy": "~1.14.0",
-    "amqplib": "~0.5.1",
-    "pubnub" : "^4.3.3",
     "mqtt": "^2.3.1"
 
   },
   "optionalDependencies": {
-    "piface": "^2.0.10"
+    "piface": "https://github.com/drweaver/piface.git"
   },
   "scripts": {
     "start": "node index.js",
