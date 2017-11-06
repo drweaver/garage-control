@@ -7,7 +7,7 @@ require('./lib/mqtt.js');
 
 require('./lib/door.control.js').init({
         "relay": 0,
-        "opened": 0,
-        "closed": 1
+        "opened": 1,
+        "closed": 0
     });
 
