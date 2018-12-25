@@ -1,6 +1,6 @@
 {
   "name": "garage-control",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Garage Control using PiFace and MQTT protocol.",
   "main": "index.js",
   "repository": "https://github.com/drweaver/garage-control",
@@ -15,15 +15,14 @@
     "pfio"
   ],
   "dependencies": {
-    "async": "~1.5.0",
-    "mqtt": "^2.3.1"
-
+    "mqtt": "^2.3.1",
+    "underscore": "^1.9.1"
   },
   "optionalDependencies": {
     "piface": "https://github.com/drweaver/piface.git"
   },
   "scripts": {
     "start": "node index.js",
-    "stop": "pkill --signal SIGINT garagecontrol"
+    "stop": "pkill --signal SIGINT garage-control"
   }
 }

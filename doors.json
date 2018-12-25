@@ -1,0 +1,15 @@
+{
+
+    "frontdoor_1": {
+        "closed_pin": 0,
+        "relay_pin": 0
+    },
+    "frontdoor_2": {
+        "closed_pin": 1,
+        "relay_pin": 1
+    },
+    "sidedoor": {
+        "closed_pin": 2
+    }
+
+}
